@@ -7,11 +7,13 @@ export default function Products() {
     isLoading,
     error,
     data: products,
-  } = useQuery(["products"], async () => {
+  } = useQuery(["products", checked], async () => {
     console.log("fetching");
-    return fetch(`data/products.json`).then((res) => res.json());
+    return fetch(`data/${checked ? "sale_" : ""}products.json`).then((res) =>
+      res.json()
+    );
   });
-  // const [loading, error, products] = useProducts({ salesOnly: checked });
+
   const handleChange = () => setChecked((prev) => !prev);
 
   if (isLoading) return <p>Loading...</p>;
@@ -32,7 +34,7 @@ export default function Products() {
               <p>{product.price}</p>
             </article>
           </li>
-        ))}
+        ))}{" "}
       </ul>
     </>
   );
